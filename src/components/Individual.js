@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import Delete from './Delete'
+import Edit from './Edit'
 
 class Individual extends Component {
     constructor(props){
@@ -8,34 +10,46 @@ class Individual extends Component {
             editing: false
         }
     }
-    edit(){
+    edit = () => {
         const { workout } = this.props;
         this.setState({
             editing: true
         })
         this.props.setEdit(workout.name, workout.day, workout.workoutnum, workout.rep, workout.set )
     }
-    updateWorkout(id) {
+    updateWorkout = (id) => {
         this.setState({
             editing: false
         })
         this.props.updateWorkout(id);
     }
     render(){
-        const { workout, deleteWorkout } = this.props;
+        const { workout, deleteWorkout, setEdit } = this.props;
         return(
-            <div>
-                <h3 className="header">{workout.name}</h3>
+            <div className="individuals">
+                <h3>{workout.name}</h3>
                 <p>Day: {workout.day}</p>
                 <p>Workout: {workout.workoutnum}</p>
                 <p>Rep: {workout.rep}</p>
                 <p>Set: {workout.set}</p>
-                <button onClick={() => deleteWorkout(workout.id)}>Delete</button>
-                {this.state.editing ? (
+                <Delete 
+                key={workout.id}
+                workout={workout}
+                deleteWorkout={deleteWorkout}
+                />
+                <Edit
+                key={workout.id}
+                workout={workout}
+                editing={this.state.editing}
+                setEdit={setEdit}
+                edit={this.edit}
+                updateWorkout={this.updateWorkout}
+                />
+                {/* {this.state.editing ? (
                     <button onClick={() => this.updateWorkout(workout.id)}>Save</button>
                 ) : (
                     <button onClick={() => this.edit()}>Edit Workout</button>
-                )}
+                )} */}
             </div>
         )
     }

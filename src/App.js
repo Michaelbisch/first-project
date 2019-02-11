@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import './App.css';
 import axios from 'axios'
 import Individual from './components/Individual'
+import Header from './components/Header'
 
 class App extends Component {
   constructor(){
@@ -109,20 +110,14 @@ class App extends Component {
         />
         );
       });
-      // const mappedBots = this.state.bots.map(bot => {
-      //   return (
-      //     <Bot
-      //       key={bot.id}
-      //       bot={bot}
-      //       deleteBot={this.deleteBot}
-      //       updateBot={this.updateBot}
-      //       setEdit={this.setEdit}
-      //     />
-      //   );
       
       return (
         <div className="App">
-        <h1>Workout Builder</h1>
+        <Header 
+        key={name.id}
+        name={name}
+        handleName={this.handleName}/>
+        {/* <h1>Workout Builder</h1> */}
         <input type="text" placeholder="Name"
          onChange={e => this.handleName(e.target.value)}
           value={this.state.name}
