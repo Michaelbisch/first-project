@@ -117,7 +117,6 @@ class App extends Component {
         key={name.id}
         name={name}
         handleName={this.handleName}/>
-        {/* <h1>Workout Builder</h1> */}
         <input type="text" placeholder="Name"
          onChange={e => this.handleName(e.target.value)}
           value={this.state.name}

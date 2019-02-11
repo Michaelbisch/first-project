@@ -26,8 +26,9 @@ class Individual extends Component {
     render(){
         const { workout, deleteWorkout, setEdit } = this.props;
         return(
+            <div className="tile">
             <div className="individuals">
-                <h3>{workout.name}</h3>
+                <h2>{workout.name}</h2>
                 <p>Day: {workout.day}</p>
                 <p>Workout: {workout.workoutnum}</p>
                 <p>Rep: {workout.rep}</p>
@@ -50,6 +51,7 @@ class Individual extends Component {
                 ) : (
                     <button onClick={() => this.edit()}>Edit Workout</button>
                 )} */}
+            </div>
             </div>
         )
     }
