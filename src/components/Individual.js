@@ -19,14 +19,13 @@ class Individual extends Component {
         this.setState({
             editing: false
         })
-        console.log(this.state.editing)
         this.props.updateWorkout(id);
     }
     render(){
         const { workout, deleteWorkout } = this.props;
         return(
             <div>
-                <h3>{workout.name}</h3>
+                <h3 className="header">{workout.name}</h3>
                 <p>Day: {workout.day}</p>
                 <p>Workout: {workout.workoutnum}</p>
                 <p>Rep: {workout.rep}</p>

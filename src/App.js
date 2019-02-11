@@ -63,7 +63,6 @@ class App extends Component {
       })
     }
     deleteWorkout(id){
-      console.log(id)
       axios.delete(`/api/workout/${id}`).then(res => {
         this.setState({
           workouts: res.data
@@ -82,7 +81,7 @@ class App extends Component {
     
     updateWorkout(id) {
       const {name, day, workoutnum, rep, set } = this.state;
-      console.log('This is update workout', this.state.workouts)
+     
       axios.put(`/api/workout/${id}`, { name, day, workoutnum, rep, set}).then(res => {
         this.setState({
           workouts: res.data,
@@ -93,14 +92,12 @@ class App extends Component {
           set: 0
         })
       })
-      console.log('end of update workout', this.state.workouts)
     }
   
 
     
     render() {
       const{name, day, workoutnum, rep, set} = this.state;
-      console.log(this.state.workouts)
       const mappedWorkouts = this.state.workouts.map(workout => {
         return(
           <Individual 

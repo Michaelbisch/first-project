@@ -10,7 +10,7 @@ let id = 1;
 
 module.exports = {
     getWorkout(req, res) {
-        console.log("this works")
+        
         res.status(200).send(workouts);
     },
     createWorkout(req, res) {
@@ -27,7 +27,7 @@ module.exports = {
         res.status(200).send(workouts)
     },
     deleteWorkout(req, res) {
-        console.log('delete')
+        
         const { id } = req.params;
         const index = workouts.findIndex(workout => workout.id == id)
 
@@ -35,7 +35,6 @@ module.exports = {
         res.status(200).send(workouts)
     },
     updateWorkout(req, res) {
-        console.log('11111', workouts)
     const { id } = req.params;
     const { name, day, workoutnum, rep, set } = req.body;
 
@@ -52,9 +51,7 @@ module.exports = {
         set: set || foundWorkout.set
 
     }
-    console.log('this is splice start', workouts)
     workouts.splice(index, 1, foundWorkout);
-    console.log('this is splice start', workouts)
 
     res.status(200).send(workouts)
     }
