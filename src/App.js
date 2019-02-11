@@ -1,18 +1,22 @@
 import React, { Component } from 'react';
 import './App.css';
 import axios from 'axios'
+import Individual from './components/Individual'
 
 class App extends Component {
   constructor(){
-    super()
+    super();
     this.state = {
       workouts: [],
       name: '',
       day: '',
-      workout: '',
+      workoutnum: '',
       rep: 0,
       set: 0
     };
+    this.deleteWorkout = this.deleteWorkout.bind(this);
+    this.updateWorkout = this.updateWorkout.bind(this);
+    this.setEdit = this.setEdit.bind(this)
   }
     handleName(val) {
       this.setState({
@@ -26,7 +30,7 @@ class App extends Component {
     }
     handleWorkout(val){
       this.setState({
-        workout: val
+        workoutnum: val
       });
     }
     handleRep(val){
@@ -40,29 +44,87 @@ class App extends Component {
       })
     }
     componentDidMount() {
-      axios.get('api/workout').then(res => {
+      axios.get('/api/workout').then(res => {
         this.setState({
           workouts: res.data
         })
       })
     }
-    createWorkout(name, day, workout, rep, set){
-      axios.post('api/workout', {name, day, workout, rep, set}).then(res => {
+    createWorkout(name, day, workoutnum, rep, set){
+      axios.post('/api/workout', {name, day, workoutnum, rep, set}).then(res => {
         this.setState({
           workouts: res.data,
           name: '',
           day: '',
-          workout: '',
+          workoutnum: '',
           rep: 0,
           set: 0
         })
       })
     }
+    deleteWorkout(id){
+      console.log(id)
+      axios.delete(`/api/workout/${id}`).then(res => {
+        this.setState({
+          workouts: res.data
+        });
+      });
+    }
+    setEdit(name, day, workoutnum, rep, set) {
+     this.setState({
+        name,
+        day,
+        workoutnum,
+        rep,
+        set
+        })
+      }
+    
+    updateWorkout(id) {
+      const {name, day, workoutnum, rep, set } = this.state;
+      console.log('This is update workout', this.state.workouts)
+      axios.put(`/api/workout/${id}`, { name, day, workoutnum, rep, set}).then(res => {
+        this.setState({
+          workouts: res.data,
+          name: '',
+          day: '',
+          workoutnum: '',
+          rep: 0,
+          set: 0
+        })
+      })
+      console.log('end of update workout', this.state.workouts)
+    }
   
-  render() {
-    const{name, day, workout, rep, set} = this.state;
-    return (
-      <div className="App">
+
+    
+    render() {
+      const{name, day, workoutnum, rep, set} = this.state;
+      console.log(this.state.workouts)
+      const mappedWorkouts = this.state.workouts.map(workout => {
+        return(
+          <Individual 
+          key={workout.id}
+          workout={workout}
+          deleteWorkout={this.deleteWorkout}
+          updateWorkout={this.updateWorkout}
+          setEdit={this.setEdit}
+        />
+        );
+      });
+      // const mappedBots = this.state.bots.map(bot => {
+      //   return (
+      //     <Bot
+      //       key={bot.id}
+      //       bot={bot}
+      //       deleteBot={this.deleteBot}
+      //       updateBot={this.updateBot}
+      //       setEdit={this.setEdit}
+      //     />
+      //   );
+      
+      return (
+        <div className="App">
         <h1>Workout Builder</h1>
         <input type="text" placeholder="Name"
          onChange={e => this.handleName(e.target.value)}
@@ -74,7 +136,7 @@ class App extends Component {
           ></input>
         <input type="text" placeholder="Workout"
          onChange={e => this.handleWorkout(e.target.value)}
-          value={this.state.workout}
+          value={this.state.workoutnum}
           ></input>
         <input type="text" placeholder="Rep"
          onChange={e => this.handleRep(e.target.value)}
@@ -84,8 +146,9 @@ class App extends Component {
          onChange={e => this.handleSet(e.target.value)}
           value={this.state.set}
           ></input>
-          <button onClick={() => this.createWorkout(name,day,workout,rep,set)}>Create</button>
-      </div>
+          <button onClick={() => this.createWorkout(name, day, workoutnum, rep, set)}>Create</button>
+          {mappedWorkouts}
+      </div> 
     );
   }
 }
